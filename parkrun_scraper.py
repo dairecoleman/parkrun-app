@@ -1,13 +1,11 @@
 # parkrun_scraper.py
-# Library for opening url and creating 
-# requests
+# Library for opening url and creating requests
 import urllib.request
 
 # pretty-print python data structures
 from pprint import pprint
 
-# for parsing all the tables present 
-# on the website
+# for parsing all the tables present on the website
 #from html_table_parser.parser import HTMLTableParser
 from html_table_parser import HTMLTableParser
 
@@ -19,29 +17,38 @@ import csv
 # for accessing url
 from io import StringIO
 import requests
-print("itsworking")
+
+# for timestamping
+import time
+
+
 headers = {
     "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0",
 }
 url = "https://www.parkrun.ie/parkrunner/472100/all/"
+# Array of column headers expected
+table_titles = ["Summary Stats for All Locations", "Best Overall Annual Achievements", "All Results"]
 
-##  USE STATIC DATA FOR TESTING. MAYBE LOOK INTO CACHING THESE RESULTS ##
-
+## LIVE DATA ##
 # https request and obtaining StringIO object and convert to html and print
-# f = StringIO(requests.get(url, headers=headers).text)
-# html_data = f.read()
+output = StringIO(requests.get(url, headers=headers).text)
+html_extract = output.read()
+timestr = time.strftime("%Y%m%d-%H%M")
+file_path = f"parkrun-scrape-results_{timestr}.html"
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(html_extract)
+
 
 ## STATIC DATA ##
 # Specify the path to your local HTML file
-file_path = "C:/Users/daire/wa/Parkrun Project/view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"
-table_titles = ["Summary Stats for All Locations", "Best Overall Annual Achievements", "All Results"]
+#file_path = "C:/Users/daire/wa/parkrun-app/view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"
 
 # Open the file in read mode
 with open(file_path, "r") as file:
     # Read the contents of the file
     html_data = file.read()
 
-#print(html_data)
+## Parse for
 
 # Parser
 p = HTMLTableParser()
@@ -65,9 +72,6 @@ for table in range(len(p.tables)):
 ## Write to csvs and pass to BI/kotlin/android app for visualisation/further manipulation.
 df=pd.DataFrame(p.tables[2])
 df[4] = '`' + df[4].astype(str)
-
-
-
 
 
 df.to_csv('out.csv',date_format=None,index=False,mode='w')
