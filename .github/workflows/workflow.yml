@@ -21,9 +21,9 @@ jobs:
       
       - name: Run Super-Linter
         uses: super-linter/super-linter@v7.2.1 # x-release-please-version
-        env:
+        #env:
             #DEFAULT_BRANCH: main
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             #FILTER_REGEX_INCLUDE: ^parkrun_scraper.py
 
       
