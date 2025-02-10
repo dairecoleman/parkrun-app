@@ -5,6 +5,12 @@ jobs:
   parkrun_scraper-python-linter:
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+      
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
