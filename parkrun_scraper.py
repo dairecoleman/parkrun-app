@@ -1,25 +1,18 @@
 # parkrun_scraper.py
-# Library for opening url and creating requests
-import urllib.request
-
+# for timestamping
+import time
+# for accessing url
+from io import StringIO
 # pretty-print python data structures
 from pprint import pprint
-
 # for parsing all the tables present on the website
 #from html_table_parser.parser import HTMLTableParser
 from html_table_parser import HTMLTableParser
-
 # for converting the parsed data in a
 # pandas dataframe
 import pandas as pd
-import csv
-
 # for accessing url
-from io import StringIO
 import requests
-
-# for timestamping
-import time
 
 
 headers = {
@@ -27,7 +20,8 @@ headers = {
 }
 url = "https://www.parkrun.ie/parkrunner/472100/all/"
 # Array of column headers expected
-table_titles = ["Summary Stats for All Locations", "Best Overall Annual Achievements", "All Results"]
+table_titles = ["Summary Stats for All Locations", "Best Overall Annual Achievements",
+        "All Results"]
 
 ## LIVE DATA ##
 # https request and obtaining StringIO object and convert to html and print
@@ -41,7 +35,7 @@ with open(file_path, "w", encoding="utf-8") as f:
 
 ## STATIC DATA ##
 # Specify the path to your local HTML file
-#file_path = "C:/Users/daire/wa/parkrun-app/view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"
+# file_path = "C:/Users/daire/wa/parkrun-app/view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"
 
 # Open the file in read mode
 with open(file_path, "r") as file:
