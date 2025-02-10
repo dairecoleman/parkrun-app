@@ -1,0 +1,17 @@
+name: Check Code
+on:
+  workflow_dispatch:
+jobs:
+  parkrun_scraper-python-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
+      - name: Run Super-Linter
+        uses: github/super-linter@v3
+        env:
+            DEFAULT_BRANCH: main
+            FILTER_REGEX_INCLUDE: ^parkrun_scraper.py
+
+      
