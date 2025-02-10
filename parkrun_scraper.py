@@ -1,16 +1,21 @@
 """ parkrun_scraper.py that scrapes pr website table data and saves as csv"""
+
 # for timestamping
 import time
+
 # for accessing url
 from io import StringIO
+
 # pretty-print python data structures
 from pprint import pprint
+
 # for parsing all the tables present on the website
-#from html_table_parser.parser import HTMLTableParser
 from html_table_parser import HTMLTableParser
+
 # for converting the parsed data in a
 # pandas dataframe
 import pandas as pd
+
 # for accessing url
 import requests
 
@@ -39,28 +44,24 @@ with open(file_path, "w", encoding="utf-8") as f:
 view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"""
 
 # Open the file in read mode
-with open(file_path, "r") as file:
+with open(file_path, mode="r", encoding="utf-8") as file:
     # Read the contents of the file
     html_data = file.read()
-
-## Parse for
 
 # Parser
 p = HTMLTableParser()
 p.feed(html_data)
-#pprint(p.tables[0])
 
-for table in range(len(p.tables)):
+for table_index, table_data in enumerate(p.tables):
     print("\n")
-    print(table_titles[table])
+    print(table_titles[table_index])
     print("\nTABLE: \n")
-    pprint(p.tables[table])
+    pprint(table_data)
 
-    # converting the parsed data to
-    # dataframe
+    # Converting the parsed data to a dataframe
     print("\nPANDAS DATAFRAME\n")
-    print(table_titles[table])
-    print(pd.DataFrame(p.tables[table]))
+    print(table_titles[table_index])
+    print(pd.DataFrame(table_data))
 
 ## Write to csvs and pass to BI/kotlin/android app for visualisation/further manipulation.
 df=pd.DataFrame(p.tables[2])
@@ -68,4 +69,3 @@ df[4] = '`' + df[4].astype(str)
 
 
 df.to_csv('out.csv',date_format=None,index=False,mode='w')
-#df.to_excel("out.xlsx")
