@@ -1,4 +1,4 @@
-# parkrun_scraper.py
+""" parkrun_scraper.py that scrapes pr website table data and saves as csv"""
 # for timestamping
 import time
 # for accessing url
@@ -35,7 +35,8 @@ with open(file_path, "w", encoding="utf-8") as f:
 
 ## STATIC DATA ##
 # Specify the path to your local HTML file
-# file_path = "C:/Users/daire/wa/parkrun-app/view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"
+""" file_path = "C:/Users/daire/wa/parkrun-app/
+view-source_https___www.parkrun.ie_parkrunner_472100_all_STATIC_HTML.html"""
 
 # Open the file in read mode
 with open(file_path, "r") as file:
@@ -61,8 +62,6 @@ for table in range(len(p.tables)):
     print(table_titles[table])
     print(pd.DataFrame(p.tables[table]))
 
-## Clean PB? column 
-
 ## Write to csvs and pass to BI/kotlin/android app for visualisation/further manipulation.
 df=pd.DataFrame(p.tables[2])
 df[4] = '`' + df[4].astype(str)
@@ -70,4 +69,3 @@ df[4] = '`' + df[4].astype(str)
 
 df.to_csv('out.csv',date_format=None,index=False,mode='w')
 #df.to_excel("out.xlsx")
-## test http retrival was succesful, test data is goodi.e can we make tables from it are they good tables??
